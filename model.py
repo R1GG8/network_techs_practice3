@@ -1,9 +1,10 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
+from fastapi import Form
 
 
 class Todo(BaseModel):
-    id: int
+    id: Optional[int] = None
     item: str
 
     class Config:
@@ -13,6 +14,10 @@ class Todo(BaseModel):
                 "item": "Пример задачи (Галлямов Ришат)",
             }
         }
+
+    @classmethod
+    def as_form(cls, item: str = Form(...)):
+        return cls(item=item)
 
 
 class TodoItem(BaseModel):
